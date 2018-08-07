@@ -27,6 +27,9 @@
             "Type": "String",
             "Default": "m4.large",
             "AllowedValues": [
+                "t2.large",
+                "t2.xlarge",
+                "t2.2xlarge",
                 "m5.large",
                 "m5.xlarge",
                 "m5.2xlarge",
