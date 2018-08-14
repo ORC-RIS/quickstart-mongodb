@@ -21,7 +21,8 @@
                         "default": "Security Configuration"
                     },
                     "Parameters": [
-                        "KeyPairName"
+                        "KeyPairName",
+                        "EncryptVolumes"
                     ]
                 },
                 {
@@ -63,6 +64,9 @@
                 "KeyPairName": {
                     "default": "Key Pair Name"
                 },
+                "EncryptVolumes": {
+                    "default": "Encrypt Volumes"
+                },                
                 "MongoDBAdminPassword": {
                     "default": "MongoDB Admin Password"
                 },
@@ -170,6 +174,15 @@
             "Type": "AWS::EC2::KeyPair::KeyName",
             "Default": "home",
             "Description": "Name of an existing EC2 KeyPair. MongoDB instances will launch with this KeyPair."
+        },
+        "EncryptVolumes": {
+            "AllowedValues": [
+                "true",
+                "false"
+            ],
+            "Default": "true",
+            "Description": "By default all volumes will be encrypted.",
+            "Type": "String"
         },
         "VolumeSize": {
             "Type": "String",
@@ -541,6 +554,9 @@
                     "KeyName": {
                         "Ref": "KeyPairName"
                     },
+                    "EncryptVolumes": {
+                        "Ref": "EncryptVolumes"
+                    },
                     "MongoDBVersion": {
                         "Ref": "MongoDBVersion"
                     },
@@ -647,6 +663,9 @@
                     "KeyName": {
                         "Ref": "KeyPairName"
                     },
+                    "EncryptVolumes": {
+                        "Ref": "EncryptVolumes"
+                    },            
                     "MongoDBVersion": {
                         "Ref": "MongoDBVersion"
                     },
@@ -753,6 +772,9 @@
                     },
                     "KeyName": {
                         "Ref": "KeyPairName"
+                    },
+                    "EncryptVolumes": {
+                        "Ref": "EncryptVolumes"
                     },
                     "MongoDBVersion": {
                         "Ref": "MongoDBVersion"

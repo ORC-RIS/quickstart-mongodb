@@ -131,6 +131,15 @@
             "Default": "home",
             "Description": "Name of an existing EC2 KeyPair. MongoDB instances will launch with this KeyPair."
         },
+        "EncryptVolumes": {
+            "AllowedValues": [
+                "true",
+                "false"
+            ],
+            "Default": "true",
+            "Description": "By default all volumes will be encrypted.",
+            "Type": "String"
+        },
         "ClusterReplicaSetCount": {
             "Description": "Number of Replica Set Members. Choose 1 or 3",
             "Type": "String",
@@ -289,21 +298,45 @@
                     {
                         "DeviceName": "/dev/xvdg",
                         "Ebs": {
-                            "VolumeType": "io1",
+                            "VolumeType": {
+                                "Ref": "VolumeType"
+                            },
                             "DeleteOnTermination": "true",
                             "VolumeSize": "25",
-                            "Iops": "250",
-                            "Encrypted" : "true"
+                            "Iops": {
+                                "Fn::If": [
+                                    "UsePIops",
+                                    "250",
+                                    {
+                                        "Ref": "AWS::NoValue"
+                                    }
+                                ]
+                            },
+                            "Encrypted" : {
+                                "Ref": "EncryptVolumes"
+                            }
                         }
                     },
                     {
                         "DeviceName": "/dev/xvdh",
                         "Ebs": {
-                            "VolumeType": "io1",
+                            "VolumeType": {
+                                "Ref": "VolumeType"
+                            },
                             "DeleteOnTermination": "true",
                             "VolumeSize": "25",
-                            "Iops": "200",
-                            "Encrypted" : "true"
+                            "Iops": {
+                                "Fn::If": [
+                                    "UsePIops",
+                                    "200",
+                                    {
+                                        "Ref": "AWS::NoValue"
+                                    }
+                                ]
+                            },
+                            "Encrypted" : {
+                                "Ref": "EncryptVolumes"
+                            }
                         }
                     },
                     {
@@ -327,7 +360,9 @@
                                 ]
                             },
                             "DeleteOnTermination": "true",
-                            "Encrypted" : "true"
+                            "Encrypted" : {
+                                "Ref": "EncryptVolumes"
+                            }
                         }
                     }
                 ],
